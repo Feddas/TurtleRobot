@@ -4,21 +4,23 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// Will eventually lays out the cards, fanning them out. Currently just a copy from C:\Job\Jetstream\BoschAr@Dx\BoschArUnity4_6\trunk\Assets\CUSTOM\Scripts\WheelPicker.cs
+/// Lays out the cards, fanning them out.
+/// copied from C:\Job\Jetstream\BoschAr@Dx\BoschArUnity4_6\trunk\Assets\CUSTOM\Scripts\WheelPicker.cs
 /// if AnchorMin.x and AnchorMax.x are the same Pos X is used. otherwise AnchorMin.x and AnchorMax.x are used.
 /// </summary>
-[ExecuteInEditMode ]
+//[ExecuteInEditMode]
 public class CardLayout : UIBehaviour, ILayoutGroup
 {
-    // each child is set to this height
-    public float CellHeight;
+    /// <summary> The width that will be allocated per card </summary>
+    public float CellWidth;
 
     [Range(0, 1)]
     public float ScrollPosition;
 
-    // each child uses the full width of this control
-    private float cellWidth { get { return Rect.sizeDelta.x; } }
-    private float WheelHeight { get { return Rect.childCount * CellHeight; } }
+    /// <summary> each card uses the full Height of this control </summary>
+    private float cellHeight { get { return Rect.sizeDelta.x; } }
+    /// <summary> The total width of all cards side by side </summary>
+    private float LayoutWidth { get { return Rect.childCount * CellWidth; } }
 
     private RectTransform rect;
     private RectTransform Rect
@@ -35,37 +37,46 @@ public class CardLayout : UIBehaviour, ILayoutGroup
 
     public void SetLayoutHorizontal()
     {
-    }
-
-    public void SetLayoutVertical()
-    {
-        if (CellHeight <= 0)
+        if (CellWidth <= 0)
             return;
 
-        var startX = Rect.anchorMin.x == Rect.anchorMax.x ? Rect.anchoredPosition.x : 0; // this assumes the pickers are anchored in the middle.
-        var minY = -WheelHeight / 2f + (CellHeight / 2);
-        var maxY = WheelHeight / 2f + (CellHeight / 2);
-        var startY = Mathf.Lerp(minY, maxY, ScrollPosition);
+        // calculate Y position to place first child
+        var startY = Rect.anchorMin.y == Rect.anchorMax.y
+            ? Rect.anchoredPosition.y  // use the anchor position
+            : 0; // this assumes the pickers are anchored in the middle.
+        
+        // calculate X position to place first child
+        var minX = -LayoutWidth / 2f + (CellWidth / 2);
+        var maxX = LayoutWidth / 2f + (CellWidth / 2);
+        var startX = Mathf.Lerp(minX, maxX, ScrollPosition);
 
-        var currentRow = 0;
-        float currentY;
+        // place children relative to first child
+        var currentColumn = 0;
+        float currentX;
         for (int i = 0; i < Rect.childCount; i++)
         {
             var child = Rect.GetChild(i) as RectTransform;
             if (child == null)
                 continue;
 
-            child.sizeDelta = new Vector2(cellWidth, CellHeight);
-            currentY = startY + currentRow * CellHeight;
-            currentY = wrap(currentY, minY, maxY);
-            child.anchoredPosition = new Vector2(startX, currentY);
-            child.anchorMin = new Vector2(Rect.anchorMin.x, 0.5f);
-            child.anchorMax = new Vector2(Rect.anchorMax.x, 0.5f);
+            // set the childs size
+            child.sizeDelta = new Vector2(CellWidth, cellHeight);
 
-            currentRow++;
+            // set the childs position
+            currentX = startX + currentColumn * CellWidth;
+            currentX = wrap(currentX, minX, maxX);
+            child.anchoredPosition = new Vector2(currentX, startY);
+            child.anchorMin = new Vector2(0.5f, 0);
+            child.anchorMax = new Vector2(0.5f, 1);
+
+            currentColumn++;
         }
 
-        Rect.sizeDelta = new Vector2(cellWidth, WheelHeight);
+        //Rect.sizeDelta = new Vector2(cellHeight, LayoutWidth);
+    }
+
+    public void SetLayoutVertical()
+    {
     }
 
     private float wrap(float input, float min, float max)
@@ -79,8 +90,8 @@ public class CardLayout : UIBehaviour, ILayoutGroup
     {
         base.OnValidate();
 
-        if (CellHeight < 1)
-            CellHeight = 1;
+        if (CellWidth < 1)
+            CellWidth = 1;
 
         SetDirty();
     }

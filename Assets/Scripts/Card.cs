@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// </summary>
 public class Card : MonoBehaviour
 {
-    public Image Arrow;
+    public UiDiamond Arrow;
     public CardTypeEnum Type;
 
     // Use this for initialization
@@ -16,15 +16,16 @@ public class Card : MonoBehaviour
         switch (Type)
         {
             case CardTypeEnum.Forward:
+                Arrow.yMin = 0;
                 break;
             case CardTypeEnum.TurnLeft:
-                Arrow.rectTransform.Rotate(new Vector3(0, 0, 90));
+                Arrow.xMax = 0;
                 break;
             case CardTypeEnum.TurnRight:
-                Arrow.rectTransform.Rotate(new Vector3(0, 0, -90));
+                Arrow.xMin = 0;
                 break;
             case CardTypeEnum.Function:
-                Arrow.rectTransform.Rotate(new Vector3(0, 0, 180)); // TODO: replace this with a better "function" icon
+                Arrow.SetBounds(.5f, .5f, .5f, .5f);  // TODO: replace this with a better "function" icon
                 break;
             case CardTypeEnum.Error:
             default:

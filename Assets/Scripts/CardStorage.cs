@@ -12,11 +12,13 @@ public class CardStorage : MonoBehaviour
 
     void Start()
     {
-        foreach (var card in Cards)
+        foreach (var cardType in Cards)
         {
             var nextCard = Instantiate(CardTemplate);
-            nextCard.name = card.ToString();
-            nextCard.transform.parent = this.transform;
+            nextCard.name = cardType.ToString();
+            nextCard.transform.SetParent(this.transform);
+
+            nextCard.Type = cardType;
         }
     }
 

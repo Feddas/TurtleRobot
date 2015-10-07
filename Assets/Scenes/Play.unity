@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b963b3589eed1c044827f89599b5a065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CellHeight: 1
+  CellWidth: 50
   ScrollPosition: 0
 --- !u!114 &35202560
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardTemplate: {fileID: 11485652, guid: 4112f2b46cccae449b932f0aef706df9, type: 2}
-  Cards: 0100000002000000
+  Cards: 01000000020000000300000004000000
 --- !u!1 &313092991
 GameObject:
   m_ObjectHideFlags: 0
