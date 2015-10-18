@@ -10,7 +10,7 @@ using System.Collections.Generic;
 /// if AnchorMin.x and AnchorMax.x are the same Pos X is used. otherwise AnchorMin.x and AnchorMax.x are used.
 /// </summary>
 //[ExecuteInEditMode]
-public class CardLayout : UIBehaviour, ILayoutGroup, IDropHandler
+public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPointerExitHandler
 {
     /// <summary> The width that will be allocated per card </summary>
     public float CellWidth;
@@ -126,7 +126,7 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IDropHandler
         SetDirty();
     }
 
-    private void SetDirty()
+    public void SetDirty()
     {
         if (CanvasUpdateRegistry.IsRebuildingLayout())
             return;
@@ -134,18 +134,31 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IDropHandler
         LayoutRebuilder.MarkLayoutForRebuild(Rect);
     }
 
-    public void OnDrop(PointerEventData eventData)
+    private Draggable getValidDraggable(GameObject droppedCard)
     {
-        var droppedCard = eventData.pointerDrag;
-        Debug.Log(droppedCard.name + " OnDropped ontop of " + this.name);
+        if (droppedCard == null) return null;
+        //Debug.Log(droppedCard.name + " OnDropped ontop of " + this.name);
 
         // make sure the droppedCard type is allowed in this container
         var card = droppedCard.GetComponent<Card>();
         if (CanNotContainCards.Contains(card.Type))
-            return;
+            return null;
+        else
+            return droppedCard.GetComponent<Draggable>();
+    }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        // moved the placeholder to this container
+        var draggable = getValidDraggable(eventData.pointerDrag);
+        if (draggable != null) draggable.DragDestination = this.transform;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
         // add the droppedCard to this container
-        var draggable = droppedCard.GetComponent<Draggable>();
-        draggable.DropToParent = this.transform;
+        var draggable = getValidDraggable(eventData.pointerDrag);
+        if (draggable != null && draggable.DragDestination == this.transform)
+            draggable.DragDestination = draggable.DragBeginIn;
     }
 }
