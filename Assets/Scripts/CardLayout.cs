@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 /// <summary>
 /// Lays out the cards, fanning them out.
@@ -9,13 +10,16 @@ using UnityEngine.EventSystems;
 /// if AnchorMin.x and AnchorMax.x are the same Pos X is used. otherwise AnchorMin.x and AnchorMax.x are used.
 /// </summary>
 //[ExecuteInEditMode]
-public class CardLayout : UIBehaviour, ILayoutGroup
+public class CardLayout : UIBehaviour, ILayoutGroup, IDropHandler
 {
     /// <summary> The width that will be allocated per card </summary>
     public float CellWidth;
 
     [Range(0, 1)]
     public float ScrollPosition;
+
+    [Tooltip("type of cards that can not be put into this layout")]
+    public List<CardTypeEnum> CanNotContainCards;
 
     /// <summary> each card uses the full Height of this control </summary>
     private float cellHeight { get { return Rect.sizeDelta.x; } }
@@ -128,5 +132,20 @@ public class CardLayout : UIBehaviour, ILayoutGroup
             return;
 
         LayoutRebuilder.MarkLayoutForRebuild(Rect);
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        var droppedCard = eventData.pointerDrag;
+        Debug.Log(droppedCard.name + " OnDropped ontop of " + this.name);
+
+        // make sure the droppedCard type is allowed in this container
+        var card = droppedCard.GetComponent<Card>();
+        if (CanNotContainCards.Contains(card.Type))
+            return;
+
+        // add the droppedCard to this container
+        var draggable = droppedCard.GetComponent<Draggable>();
+        draggable.DropToParent = this.transform;
     }
 }

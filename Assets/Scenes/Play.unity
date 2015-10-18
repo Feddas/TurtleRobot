@@ -167,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CellWidth: 50
   ScrollPosition: 0
+  CanNotContainCards: 
 --- !u!114 &35202560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +191,7 @@ GameObject:
   - 224: {fileID: 313092992}
   - 222: {fileID: 313092994}
   - 114: {fileID: 313092993}
+  - 114: {fileID: 313092995}
   m_Layer: 5
   m_Name: Function
   m_TagString: Untagged
@@ -247,6 +249,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 313092991}
+--- !u!114 &313092995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 313092991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b963b3589eed1c044827f89599b5a065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CellWidth: 50
+  ScrollPosition: 0
+  CanNotContainCards: 04000000
 --- !u!1 &370834584
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +273,7 @@ GameObject:
   - 224: {fileID: 370834585}
   - 222: {fileID: 370834587}
   - 114: {fileID: 370834586}
+  - 114: {fileID: 370834588}
   m_Layer: 5
   m_Name: Program
   m_TagString: Untagged
@@ -314,6 +331,20 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 370834584}
+--- !u!114 &370834588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 370834584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b963b3589eed1c044827f89599b5a065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CellWidth: 50
+  ScrollPosition: 0
+  CanNotContainCards: 
 --- !u!1 &477100834
 GameObject:
   m_ObjectHideFlags: 0
