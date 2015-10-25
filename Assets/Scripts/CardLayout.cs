@@ -48,7 +48,7 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
         var startY = Rect.anchorMin.y == Rect.anchorMax.y
             ? Rect.anchoredPosition.y  // use the anchor position
             : 0; // this assumes the pickers are anchored in the middle.
-        
+
         // calculate X position to place first child
         var minX = -LayoutWidth / 2f + (CellWidth / 2);
         var maxX = LayoutWidth / 2f + (CellWidth / 2);
@@ -90,6 +90,7 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
         return ((offsetToZero % range) + range) % range + min;
     }
 
+#if UNITY_EDITOR
     protected override void OnValidate()
     {
         base.OnValidate();
@@ -99,6 +100,7 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
 
         SetDirty();
     }
+#endif
 
     protected override void OnRectTransformDimensionsChange()
     {
