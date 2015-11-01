@@ -12,14 +12,23 @@ enum DirectionEnum
     Left,
 }
 
-[RequireComponent(typeof(Image))]
 public class RunCards : MonoBehaviour
 {
     public CardLayout CardsProgram;
     public CardLayout CardsFunction;
     public float SecondsPerCard;
 
-    private Image turtle;
+    private Transform turtle
+    {
+        get
+        {
+            if (_turtle == null)
+                _turtle = this.transform;
+            return _turtle;
+        }
+    }
+    private Transform _turtle;
+    private RectTransform turtleRect;
     private List<Card> programToRun;
     private List<Card> function;
     private DirectionEnum facingDirection;
@@ -31,10 +40,10 @@ public class RunCards : MonoBehaviour
 
     void Start()
     {
-        turtle = this.GetComponent<Image>();
-        startPosition = turtle.rectTransform.anchoredPosition;
-        startRotation = turtle.rectTransform.localRotation;
-        startDirection = DirectionEnum.Down;
+        turtleRect = turtle as RectTransform;
+        startPosition = turtleRect ? turtleRect.anchoredPosition : (Vector2)turtle.localPosition;
+        startRotation = turtle.localRotation;
+        startDirection = DirectionEnum.Up;
     }
 
     void Update()
@@ -44,8 +53,15 @@ public class RunCards : MonoBehaviour
     public void OnClickRun()
     {
         // reset back to starting position
-        turtle.rectTransform.anchoredPosition = startPosition;
-        turtle.rectTransform.localRotation = startRotation;
+        if (turtleRect)
+        {
+            turtleRect.anchoredPosition = startPosition;
+        }
+        else
+        {
+            turtle.localPosition = startPosition;
+        }
+        turtle.localRotation = startRotation;
         facingDirection = startDirection;
 
         isRunning = isRunning == false;
@@ -53,8 +69,8 @@ public class RunCards : MonoBehaviour
             return;
 
         // grab cards to run
-        programToRun = new List<Card>();
         programToRun = CardsProgram.GetComponentsInChildren<Card>().ToList();
+        function = CardsFunction.GetComponentsInChildren<Card>().ToList();
 
         // run them
         StartCoroutine(executeProgram());
@@ -75,70 +91,76 @@ public class RunCards : MonoBehaviour
     {
         //yield return new WaitForSeconds(SecondsPerCard);
 
-        //Debug.Log("preforming a " + cardType.ToString());
+        Debug.Log("preforming a " + cardType.ToString());
         switch (cardType)
         {
             case CardTypeEnum.Forward:
                 var newPosition = goTowards(facingDirection);
-                yield return StartCoroutine(LerpTo((Vector3)newPosition, turtle.rectTransform.localRotation, turtle.rectTransform.localScale, turtle.rectTransform));
+                yield return StartCoroutine(LerpTo((Vector3)newPosition, turtle.transform.localRotation, turtle.transform.localScale, turtle.transform));
                 break;
             case CardTypeEnum.TurnLeft:
                 updateDirection(ref facingDirection, towardsRight: false);
-                yield return StartCoroutine(rotate(turtle.rectTransform, 90)); // lerp turtle.rectTransform.Rotate(0, 0, 90);
+                yield return StartCoroutine(rotate(turtle.transform, 90)); // lerp turtle.rectTransform.Rotate(0, 0, 90);
                 break;
             case CardTypeEnum.TurnRight:
                 updateDirection(ref facingDirection, towardsRight: true);
-                yield return StartCoroutine(rotate(turtle.rectTransform, -90)); // lerp turtle.rectTransform.Rotate(0, 0, -90);
+                yield return StartCoroutine(rotate(turtle.transform, -90)); // lerp turtle.rectTransform.Rotate(0, 0, -90);
                 break;
             case CardTypeEnum.Function:
+                foreach (var card in function)
+                {
+                    yield return StartCoroutine(executeCard(card.Type));
+                }
+                break;
             case CardTypeEnum.Error:
             default:
                 break;
         }
     }
 
-    IEnumerator rotate(RectTransform model, float eulerDegreesInZ)
+    IEnumerator rotate(Transform model, float eulerDegreesInZ)
     {
-        var euler = turtle.rectTransform.localRotation.eulerAngles;
+        var euler = model.localRotation.eulerAngles;
         var newRotation = Quaternion.Euler(euler.x, euler.y, euler.z + eulerDegreesInZ);
-        yield return StartCoroutine(LerpTo(turtle.rectTransform.localPosition, newRotation, turtle.rectTransform.localScale, turtle.rectTransform));
+        yield return StartCoroutine(LerpTo(model.localPosition, newRotation, model.localScale, model));
     }
 
     private void updateDirection(ref DirectionEnum toUpdate, bool towardsRight)
     {
         //Debug.Log("turning right?" + towardsRight + " on " + toUpdate.ToString());
-        int increment = towardsRight ? 1 : -1;
+        int increment = towardsRight ? 1 : 3;  // using 3 instead of -1 because % of -1 was failing
         toUpdate = (DirectionEnum)(((int)toUpdate + increment) % 4);
         //Debug.Log("new direction " + toUpdate.ToString());
     }
 
     private Vector2 goTowards(DirectionEnum direction)
     {
-        Vector2 newPosition = turtle.rectTransform.anchoredPosition;
+        Vector2 newPosition = turtleRect ? turtleRect.anchoredPosition : (Vector2)turtle.localPosition;
         switch (direction)
         {
             case DirectionEnum.Up:
-                newPosition.y += turtle.rectTransform.sizeDelta.y;
+                newPosition.y += turtleRect ? turtleRect.sizeDelta.y : turtle.localScale.y;
                 break;
             case DirectionEnum.Right:
-                newPosition.x += turtle.rectTransform.sizeDelta.x;
+                newPosition.x += turtleRect ? turtleRect.sizeDelta.x : turtle.localScale.x;
                 break;
             case DirectionEnum.Down:
-                newPosition.y += -turtle.rectTransform.sizeDelta.y;
+                newPosition.y += turtleRect ? -turtleRect.sizeDelta.y : -turtle.localScale.y;
                 break;
             case DirectionEnum.Left:
-                newPosition.x += -turtle.rectTransform.sizeDelta.x;
+                newPosition.x += turtleRect ? -turtleRect.sizeDelta.x : -turtle.localScale.x;
                 break;
             default:
                 break;
         }
 
+        //Debug.Log(turtle.rectTransform.anchoredPosition + "'s newPosition " + (Vector3)newPosition + " delta:" + turtle.rectTransform.sizeDelta + " direction:" + direction);
         //Debug.Log("Moving from " + turtle.rectTransform.anchoredPosition + " to " + (Vector3)newPosition);
         //turtle.rectTransform.localPosition = (Vector3)newPosition;
         return newPosition;
     }
 
-    IEnumerator LerpTo(Vector3 endPosition, Quaternion endRotation, Vector3 endScale, RectTransform model)
+    IEnumerator LerpTo(Vector3 endPosition, Quaternion endRotation, Vector3 endScale, Transform model)
     {
         //Debug.Log(model.anchoredPosition + "Moving from " + turtle.rectTransform.anchoredPosition + " to " + endPosition);
         //Debug.Log("LerpTo scale " + endScale + this.name);

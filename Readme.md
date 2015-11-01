@@ -6,7 +6,12 @@ A blantent rip off the board game "Robot Turtles", but single player.
 
 A way for a child to practice what they learn in Robot Turtles without a parent being around.
 
-# Credits
+# Remotes
+
+https://shawnfeatherly.visualstudio.com/DefaultCollection/_git/TurtleRobot
+
+# Inspiration
 
 Dan Sharpio - The man behind Robot Turtles
 Quill18 - Drag & Drop video https://youtu.be/bMuYUOIAdnc
+Maze Generator - http://www.turtlemazes.com/
