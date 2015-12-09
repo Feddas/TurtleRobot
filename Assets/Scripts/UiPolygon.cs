@@ -26,22 +26,13 @@ public class Vertex
     }
 }
 
-[System.Serializable]
-public class Polygon
-{
-    public string Name;
-
-    [Tooltip("Vertices are percent based, use 0 to 1")]
-    public List<Vector2> Vertices;
-}
-
 /// <summary>
 /// Draws concave polygons on a Canvas that obeys the anchor points of the RectTransform
 /// </summary>
 public class UiPolygon : Graphic
 {
-    [Tooltip("When unchecked, allow polygons to be drawn outside of the bounds of the RectTransform")]
-    public bool ClampToBounds;
+    [Tooltip("Warning: after set, modifying Polygons will also modify the source ScriptableObject")]
+    public PolygonSet ScriptableObjectPolygons;
 
     [Tooltip("Polygons must be concave/regular. Otherwise triangles will be drawn outside of the polygon.")]
     public List<Polygon> Polygons;
@@ -51,7 +42,7 @@ public class UiPolygon : Graphic
 
     protected override void OnPopulateMesh(Mesh m)
     {
-        if (Polygons == null || Polygons.Count == 0)
+        if (isPolygonMissing())
             return;
 
         using (var vh = new VertexHelper())
@@ -74,6 +65,16 @@ public class UiPolygon : Graphic
         }
     }
 
+    /// <summary> Polygon data is required to have something to populate the mesh with </summary>
+    private bool isPolygonMissing()
+    {
+        if (ScriptableObjectPolygons != null)
+            Polygons = ScriptableObjectPolygons.Polygons;
+            //ScriptableObjectPolygons.Polygons = Polygons; //use this line to copy inspector data to a ScriptableObject
+
+        return (Polygons == null || Polygons.Count == 0);
+    }
+
     /// <summary> Maps vertices from percent values into the width and height of the rectTransform </summary>
     private List<Vertex> mapVertices()
     {
@@ -88,8 +89,8 @@ public class UiPolygon : Graphic
             for (int index = 0; index < polygon.Count; index++)
             {
                 // restrict to inside bounds of rectTransform
-                float xMapped = ClampToBounds ? Mathf.Clamp(polygon[index].x, 0, 1) : polygon[index].x;
-                float yMapped = ClampToBounds ? Mathf.Clamp(polygon[index].y, 0, 1) : polygon[index].y;
+                float xMapped = polygon[index].x;
+                float yMapped = polygon[index].y;
 
                 // account for pivot
                 xMapped -= pivotX;

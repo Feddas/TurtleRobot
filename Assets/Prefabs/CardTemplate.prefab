@@ -29,15 +29,15 @@ GameObject:
   m_Component:
   - 224: {fileID: 22465664}
   - 222: {fileID: 22289716}
-  - 114: {fileID: 11437168}
+  - 114: {fileID: 11431284}
   m_Layer: 5
-  m_Name: Arrow
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &11437168
+--- !u!114 &11431284
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -45,16 +45,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 146126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed6e1d7c0b924a4081f0b6694942c30, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ece2ee9b49ea9b4cb929e0a36a1fc4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  xMin: 1
-  xMax: 1
-  yMin: 1
-  yMax: 1
+  ScriptableObjectPolygons: {fileID: 0}
+  Polygons: []
 --- !u!114 &11457224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8019208105e27d47bc884f4683025d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Arrow: {fileID: 11437168}
+  Icon: {fileID: 11431284}
   Type: 0
 --- !u!114 &11490636
 MonoBehaviour:
@@ -135,7 +133,7 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: .5, y: .5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22465664
 RectTransform:
   m_ObjectHideFlags: 1
@@ -148,11 +146,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22440628}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.1, y: 0.1}
+  m_AnchorMax: {x: 0.9, y: 0.9}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: .5, y: .5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &22500192
 CanvasGroup:
   m_ObjectHideFlags: 1
@@ -160,7 +158,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 125182}
   m_Enabled: 1
-  m_Alpha: .200000003
+  m_Alpha: 0.2
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

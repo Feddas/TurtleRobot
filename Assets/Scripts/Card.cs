@@ -7,30 +7,26 @@ using UnityEngine.UI;
 /// </summary>
 public class Card : MonoBehaviour
 {
-    public UiDiamond Arrow;
+    public UiPolygon Icon;
     public CardTypeEnum Type;
+    public PolygonSet Polygons
+    {
+        get
+        {
+            return Icon.ScriptableObjectPolygons;
+        }
+        set
+        {
+            if (Icon.ScriptableObjectPolygons == value)
+                return;
+
+            Icon.ScriptableObjectPolygons = value;
+        }
+    }
 
     // Use this for initialization
     void Start()
     {
-        switch (Type)
-        {
-            case CardTypeEnum.Forward:
-                Arrow.yMin = 0;
-                break;
-            case CardTypeEnum.TurnLeft:
-                Arrow.xMax = 0;
-                break;
-            case CardTypeEnum.TurnRight:
-                Arrow.xMin = 0;
-                break;
-            case CardTypeEnum.Function:
-                Arrow.SetBounds(.5f, .5f, .5f, .5f);  // TODO: replace this with a better "function" icon
-                break;
-            case CardTypeEnum.Error:
-            default:
-                break;
-        }
     }
 
     // Update is called once per frame
