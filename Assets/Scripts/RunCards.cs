@@ -50,7 +50,7 @@ public class RunCards : MonoBehaviour
     {
     }
 
-    public void OnClickRun()
+    public void OnClickRun(GameObject stopGraphic)
     {
         // reset back to starting position
         if (turtleRect)
@@ -64,7 +64,7 @@ public class RunCards : MonoBehaviour
         turtle.localRotation = startRotation;
         facingDirection = startDirection;
 
-        isRunning = isRunning == false;
+        setRunning(isRunning == false, stopGraphic);
         if (isRunning == false)
             return;
 
@@ -73,17 +73,23 @@ public class RunCards : MonoBehaviour
         function = CardsFunction.GetComponentsInChildren<Card>().ToList();
 
         // run them
-        StartCoroutine(executeProgram());
+        StartCoroutine(executeProgram(() => setRunning(false, stopGraphic)));
     }
 
-    IEnumerator executeProgram()
+    private void setRunning(bool newIsRunning, GameObject stopGraphic)
+    {
+        isRunning = newIsRunning;
+        stopGraphic.SetActive(isRunning);
+    }
+
+    IEnumerator executeProgram(System.Action callbackSetRunning)
     {
         foreach (var card in programToRun)
         {
             yield return StartCoroutine(executeCard(card.Type));
         }
 
-        isRunning = false;
+        callbackSetRunning();
         yield return null;
     }
 

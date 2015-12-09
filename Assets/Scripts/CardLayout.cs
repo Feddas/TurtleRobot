@@ -12,8 +12,9 @@ using System.Collections.Generic;
 //[ExecuteInEditMode]
 public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPointerExitHandler
 {
-    /// <summary> The width that will be allocated per card </summary>
-    public float CellWidth;
+
+    [Tooltip("How many cards should fit into the screen at a time")]
+    public int CardsVisible;
 
     [Range(0, 1)]
     public float ScrollPosition;
@@ -23,8 +24,25 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
 
     /// <summary> each card uses the full Height of this control </summary>
     private float cellHeight { get { return Rect.sizeDelta.x; } }
+
+    /// <summary> The width that will be allocated per card </summary>
+    private float cellWidth
+    {
+        get
+        {
+            if (_cellWidth == -1)
+            {
+                Debug.Log(this.name + Screen.width + " x " + Rect.rect.width);
+                if (CardsVisible == 0) CardsVisible = 10; // ensure no division by 0
+                _cellWidth = Rect.rect.width / CardsVisible;
+            }
+            return _cellWidth;
+        }
+    }
+    private float _cellWidth = -1;
+
     /// <summary> The total width of all cards side by side </summary>
-    private float LayoutWidth { get { return Rect.childCount * CellWidth; } }
+    private float LayoutWidth { get { return Rect.childCount * cellWidth; } }
 
     private RectTransform rect;
     private RectTransform Rect
@@ -41,7 +59,7 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
 
     public void SetLayoutHorizontal()
     {
-        if (CellWidth <= 0)
+        if (cellWidth <= 0)
             return;
 
         // calculate Y position to place first child
@@ -50,8 +68,8 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
             : 0; // this assumes the pickers are anchored in the middle.
 
         // calculate X position to place first child
-        var minX = -LayoutWidth / 2f + (CellWidth / 2);
-        var maxX = LayoutWidth / 2f + (CellWidth / 2);
+        var minX = -LayoutWidth / 2f + (cellWidth / 2);
+        var maxX = LayoutWidth / 2f + (cellWidth / 2);
         var startX = Mathf.Lerp(minX, maxX, ScrollPosition);
 
         // place children relative to first child
@@ -64,10 +82,10 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
                 continue;
 
             // set the childs size
-            child.sizeDelta = new Vector2(CellWidth, cellHeight);
+            child.sizeDelta = new Vector2(cellWidth, cellHeight);
 
             // set the childs position
-            currentX = startX + currentColumn * CellWidth;
+            currentX = startX + currentColumn * cellWidth;
             currentX = wrap(currentX, minX, maxX);
             child.anchoredPosition = new Vector2(currentX, startY);
             child.anchorMin = new Vector2(0.5f, 0);
@@ -94,9 +112,6 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
     protected override void OnValidate()
     {
         base.OnValidate();
-
-        if (CellWidth < 1)
-            CellWidth = 1;
 
         SetDirty();
     }
