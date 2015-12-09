@@ -137,12 +137,16 @@ MonoBehaviour:
     type: 2}
   Polygons:
   - Name: Line
+    MirrorHorizontally: 0
+    IsHidden: 0
     Vertices:
     - {x: 0.3, y: 0}
     - {x: 0.3, y: 0.5}
     - {x: 0, y: 0.6}
     - {x: 0, y: 0}
   - Name: Line Bend
+    MirrorHorizontally: 0
+    IsHidden: 0
     Vertices:
     - {x: 0.4, y: 0.5}
     - {x: 0.4, y: 0.8}
@@ -151,6 +155,8 @@ MonoBehaviour:
     - {x: 0, y: 0.6}
     - {x: 0.3, y: 0.5}
   - Name: Arrow Head
+    MirrorHorizontally: 0
+    IsHidden: 0
     Vertices:
     - {x: 0.4, y: 0.3}
     - {x: 1, y: 0.65}
@@ -171,7 +177,7 @@ GameObject:
   - 224: {fileID: 750964309}
   - 114: {fileID: 750964310}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Icons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -252,12 +258,16 @@ MonoBehaviour:
   ScriptableObjectPolygons: {fileID: 0}
   Polygons:
   - Name: Line
+    MirrorHorizontally: 0
+    IsHidden: 0
     Vertices:
     - {x: 0.7, y: 0}
     - {x: 0.7, y: 0.5}
     - {x: 1, y: 0.6}
     - {x: 1, y: 0}
   - Name: Line Bend
+    MirrorHorizontally: 0
+    IsHidden: 0
     Vertices:
     - {x: 0.6, y: 0.5}
     - {x: 0.6, y: 0.8}
@@ -266,6 +276,8 @@ MonoBehaviour:
     - {x: 1, y: 0.6}
     - {x: 0.7, y: 0.5}
   - Name: Arrow Head
+    MirrorHorizontally: 0
+    IsHidden: 0
     Vertices:
     - {x: 0.6, y: 0.3}
     - {x: 0, y: 0.65}
@@ -435,12 +447,16 @@ MonoBehaviour:
   ScriptableObjectPolygons: {fileID: 0}
   Polygons:
   - Name: Line
+    MirrorHorizontally: 0
+    IsHidden: 0
     Vertices:
     - {x: 0.3, y: 0}
     - {x: 0.3, y: 0.5}
     - {x: 0.7, y: 0.5}
     - {x: 0.7, y: 0}
   - Name: Arrow Head
+    MirrorHorizontally: 0
+    IsHidden: 0
     Vertices:
     - {x: 0, y: 0.5}
     - {x: 0.5, y: 1}
@@ -663,21 +679,110 @@ MonoBehaviour:
     type: 2}
   Polygons:
   - Name: Body
+    MirrorHorizontally: 0
+    IsHidden: 0
     Vertices:
-    - {x: 0.2, y: 0}
-    - {x: 0.4, y: 0.4}
-    - {x: 0.6, y: 0.4}
-    - {x: 0.8, y: 0}
-  - Name: Head
+    - {x: 0.5, y: 0.16}
+    - {x: 0.36, y: 0.23}
+    - {x: 0.32, y: 0.59}
+    - {x: 0.36, y: 0.85}
+    - {x: 0.5, y: 0.94}
+    - {x: 0.64, y: 0.85}
+    - {x: 0.68, y: 0.59}
+    - {x: 0.64, y: 0.23}
+  - Name: Shoulder
+    MirrorHorizontally: 1
+    IsHidden: 0
     Vertices:
-    - {x: 0.4, y: 0.5}
-    - {x: 0.3, y: 0.6}
-    - {x: 0.3, y: 0.8}
-    - {x: 0.4, y: 1}
-    - {x: 0.6, y: 1}
-    - {x: 0.7, y: 0.8}
-    - {x: 0.7, y: 0.6}
-    - {x: 0.6, y: 0.5}
+    - {x: 0.32, y: 0.59}
+    - {x: 0.26, y: 0.56}
+    - {x: 0.28, y: 0.66}
+    - {x: 0.36, y: 0.85}
+  - Name: Forearm
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.26, y: 0.56}
+    - {x: 0.2, y: 0.79}
+    - {x: 0.2, y: 0.81}
+    - {x: 0.21, y: 0.81}
+    - {x: 0.22, y: 0.8}
+    - {x: 0.28, y: 0.66}
+  - Name: FingerInner
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.21, y: 0.81}
+    - {x: 0.24, y: 0.9}
+    - {x: 0.28, y: 0.88}
+    - {x: 0.22, y: 0.8}
+  - Name: FingerMiddle
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.2, y: 0.81}
+    - {x: 0.16, y: 0.92}
+    - {x: 0.2, y: 0.93}
+    - {x: 0.21, y: 0.81}
+  - Name: FingerOutter
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.2, y: 0.79}
+    - {x: 0.1, y: 0.85}
+    - {x: 0.12, y: 0.88}
+    - {x: 0.2, y: 0.81}
+  - Name: Thigh
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.26, y: 0.2}
+    - {x: 0.18, y: 0.42}
+    - {x: 0.35, y: 0.37}
+    - {x: 0.38, y: 0.04}
+  - Name: Shin
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.38, y: 0.04}
+    - {x: 0.13, y: 0.25}
+    - {x: 0.12, y: 0.27}
+    - {x: 0.13, y: 0.29}
+    - {x: 0.16, y: 0.29}
+    - {x: 0.19, y: 0.28}
+    - {x: 0.26, y: 0.2}
+  - Name: ToeInner
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.16, y: 0.29}
+    - {x: 0.13, y: 0.38}
+    - {x: 0.16, y: 0.37}
+    - {x: 0.19, y: 0.28}
+  - Name: ToeByInner
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.13, y: 0.29}
+    - {x: 0.05, y: 0.39}
+    - {x: 0.1, y: 0.39}
+    - {x: 0.16, y: 0.29}
+  - Name: ToeByOutter
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.12, y: 0.27}
+    - {x: 0, y: 0.35}
+    - {x: 0.02, y: 0.38}
+    - {x: 0.13, y: 0.29}
+  - Name: ToeOutter
+    MirrorHorizontally: 1
+    IsHidden: 0
+    Vertices:
+    - {x: 0.13, y: 0.25}
+    - {x: 0, y: 0.28}
+    - {x: 0, y: 0.32}
+    - {x: 0.12, y: 0.27}
 --- !u!222 &2040741829
 CanvasRenderer:
   m_ObjectHideFlags: 0

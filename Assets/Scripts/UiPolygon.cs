@@ -38,7 +38,7 @@ public class UiPolygon : Graphic
     public List<Polygon> Polygons;
 
     /// <summary> vertices grouped by the polygon they belong to </summary>
-    private IEnumerable<List<Vector2>> allVertices;
+    private List<List<Vector2>> allVertices;
 
     protected override void OnPopulateMesh(Mesh m)
     {
@@ -82,13 +82,25 @@ public class UiPolygon : Graphic
         float pivotX = rectTransform.pivot.x;
         float pivotY = rectTransform.pivot.y;
 
-        allVertices = Polygons.Select(p => p.Vertices);
+        // add list of vertices defined in Polygons
+        allVertices = Polygons
+            .Where(p => p.IsHidden == false)
+            .Select(p => p.Vertices)
+            .ToList();
+
+        // add mirrored polygons
+        foreach (var polygon in Polygons.Where(p => p.MirrorHorizontally && p.IsHidden == false))
+        {
+            allVertices.Add(mirrorVertices(polygon));
+        }
+
+        // map all polygons to canvas width & height
         foreach (var polygon in allVertices)
         {
-            // restrict to valid values
+            // map a polygons vertices to canvas width & height
             for (int index = 0; index < polygon.Count; index++)
             {
-                // restrict to inside bounds of rectTransform
+                // load initial values
                 float xMapped = polygon[index].x;
                 float yMapped = polygon[index].y;
 
@@ -105,6 +117,24 @@ public class UiPolygon : Graphic
         }
 
         return result;
+    }
+
+    /// <summary> mirrors all vertices accross the y axis </summary>
+    private List<Vector2> mirrorVertices(Polygon polygon)
+    {
+        if (polygon.MirrorHorizontally && polygon.IsHidden == false)
+        {
+            var mirror = new List<Vector2>();
+            foreach (var vertex in polygon.Vertices)
+            {
+                mirror.Add(new Vector2(1 - vertex.x, vertex.y));
+            }
+            return mirror;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /// <param name="startsAtIndex">index where the passed in polygon has its first vertex out of VertexHelper.verts</param>
