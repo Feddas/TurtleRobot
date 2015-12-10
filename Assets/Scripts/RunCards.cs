@@ -38,6 +38,10 @@ public class RunCards : MonoBehaviour
     private Quaternion startRotation;
     private DirectionEnum startDirection;
 
+    private Image activeCardInProgram; // used to hightlight cards in the main program
+    private Image activeCardInFunction; // used to hightlight cards in the function
+    private float runningFunctionIndex; // used to determine how long a function frog card should stay highlighted
+
     void Start()
     {
         turtleRect = turtle as RectTransform;
@@ -86,10 +90,26 @@ public class RunCards : MonoBehaviour
     {
         foreach (var card in programToRun)
         {
+            activeCardInProgram = card.GetComponent<Image>();
+            activeCardInFunction = null; // erase value from any previous function cards
             yield return StartCoroutine(executeCard(card.Type));
         }
 
         callbackSetRunning();
+        yield return null;
+    }
+
+    IEnumerator executeFunction(List<Card> sequence, System.Action<Image> setCardBackground)
+    {
+        foreach (var card in sequence)
+        {
+            setCardBackground(card.GetComponent<Image>());
+            yield return StartCoroutine(executeCard(card.Type));
+
+            // prep for next card
+            runningFunctionIndex++;
+        }
+        runningFunctionIndex = 0;
         yield return null;
     }
 
@@ -113,10 +133,7 @@ public class RunCards : MonoBehaviour
                 yield return StartCoroutine(rotate(turtle.transform, -90)); // lerp turtle.rectTransform.Rotate(0, 0, -90);
                 break;
             case CardTypeEnum.Function:
-                foreach (var card in function)
-                {
-                    yield return StartCoroutine(executeCard(card.Type));
-                }
+                yield return StartCoroutine(executeFunction(function, i => activeCardInFunction = i));
                 break;
             case CardTypeEnum.Error:
             default:
@@ -182,7 +199,45 @@ public class RunCards : MonoBehaviour
             model.localPosition = Vector3.Lerp(startPosition, endPosition, percentEased);
             model.localRotation = Quaternion.Lerp(startRotation, endRotation, percentEased);
             model.localScale = Vector3.Lerp(startScale, endScale, percentEased);
+
+            highlightActiveCards(percent);
             yield return null;
+        }
+    }
+
+    void highlightActiveCards(float lerpPercent)
+    {
+        // It's a function card, highlight function frog card and card inside of function
+        if (activeCardInFunction)
+        {
+            // highlight the function card
+            highlightCard(ref activeCardInFunction, lerpPercent);
+
+            // keep the card highlighted in the main program until the function is completed
+            if (function.Count == 1)
+                highlightCard(ref activeCardInProgram, lerpPercent);
+            else if (runningFunctionIndex == 0 && lerpPercent < .5)
+                highlightCard(ref activeCardInProgram, lerpPercent);
+            else if (runningFunctionIndex == function.Count - 1 && lerpPercent >= .5)
+                highlightCard(ref activeCardInProgram, lerpPercent);
+        }
+
+        // Not a function frog card, highlight it for it's single movement
+        else
+        {
+            highlightCard(ref activeCardInProgram, lerpPercent);
+        }
+    }
+
+    void highlightCard(ref Image imageToHightlight, float lerpPercent)
+    {
+        if (lerpPercent < .5)
+        {
+            imageToHightlight.color = Color.Lerp(Color.white, Color.green, lerpPercent * 2);
+        }
+        if (lerpPercent >= .5)
+        {
+            imageToHightlight.color = Color.Lerp(Color.green, Color.white, (lerpPercent - 0.5f) * 2);
         }
     }
 }

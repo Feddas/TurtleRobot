@@ -9,6 +9,7 @@ public class Card : MonoBehaviour
 {
     public UiPolygon Icon;
     public CardTypeEnum Type;
+
     public PolygonSet Polygons
     {
         get

@@ -22,8 +22,8 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
     [Tooltip("type of cards that can not be put into this layout")]
     public List<CardTypeEnum> CanNotContainCards;
 
-    /// <summary> each card uses the full Height of this control </summary>
-    private float cellHeight { get { return Rect.sizeDelta.x; } }
+    /// <summary> each card uses the full Height of this layout control </summary>
+    private float cellHeightDelta { get { return Rect.sizeDelta.y; } }
 
     /// <summary> The width that will be allocated per card </summary>
     private float cellWidth
@@ -32,7 +32,6 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
         {
             if (_cellWidth == -1)
             {
-                Debug.Log(this.name + Screen.width + " x " + Rect.rect.width);
                 if (CardsVisible == 0) CardsVisible = 10; // ensure no division by 0
                 _cellWidth = Rect.rect.width / CardsVisible;
             }
@@ -82,7 +81,7 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
                 continue;
 
             // set the childs size
-            child.sizeDelta = new Vector2(cellWidth, cellHeight);
+            child.sizeDelta = new Vector2(cellWidth, cellHeightDelta);
 
             // set the childs position
             currentX = startX + currentColumn * cellWidth;
