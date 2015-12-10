@@ -99,11 +99,11 @@ public class RunCards : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator executeFunction(List<Card> sequence, System.Action<Image> setCardBackground)
+    IEnumerator executeFunction()
     {
-        foreach (var card in sequence)
+        foreach (var card in function)
         {
-            setCardBackground(card.GetComponent<Image>());
+            activeCardInFunction = card.GetComponent<Image>();
             yield return StartCoroutine(executeCard(card.Type));
 
             // prep for next card
@@ -133,7 +133,7 @@ public class RunCards : MonoBehaviour
                 yield return StartCoroutine(rotate(turtle.transform, -90)); // lerp turtle.rectTransform.Rotate(0, 0, -90);
                 break;
             case CardTypeEnum.Function:
-                yield return StartCoroutine(executeFunction(function, i => activeCardInFunction = i));
+                yield return StartCoroutine(executeFunction());
                 break;
             case CardTypeEnum.Error:
             default:
@@ -214,7 +214,7 @@ public class RunCards : MonoBehaviour
             highlightCard(ref activeCardInFunction, lerpPercent);
 
             // keep the card highlighted in the main program until the function is completed
-            if (function.Count == 1)
+            if (function.Count <= 1) // note: this function should never be called if function.Count == 0, but "< 1" is there just incase
                 highlightCard(ref activeCardInProgram, lerpPercent);
             else if (runningFunctionIndex == 0 && lerpPercent < .5)
                 highlightCard(ref activeCardInProgram, lerpPercent);

@@ -12,12 +12,8 @@ using System.Collections.Generic;
 //[ExecuteInEditMode]
 public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPointerExitHandler
 {
-
-    [Tooltip("How many cards should fit into the screen at a time")]
+    [Tooltip("Default of how many cards should fit into the screen at a time. Cards will shrink if there are more than this number of cards childed.")]
     public int CardsVisible;
-
-    [Range(0, 1)]
-    public float ScrollPosition;
 
     [Tooltip("type of cards that can not be put into this layout")]
     public List<CardTypeEnum> CanNotContainCards;
@@ -33,15 +29,25 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
             if (_cellWidth == -1)
             {
                 if (CardsVisible == 0) CardsVisible = 10; // ensure no division by 0
-                _cellWidth = Rect.rect.width / CardsVisible;
             }
+
+            _cellWidth = getCellWidth();
             return _cellWidth;
         }
     }
     private float _cellWidth = -1;
 
-    /// <summary> The total width of all cards side by side </summary>
-    private float LayoutWidth { get { return Rect.childCount * cellWidth; } }
+    private float getCellWidth()
+    {
+        if (Rect.childCount > CardsVisible) // shrink width so all cards fit
+        {
+            return Rect.rect.width / Rect.childCount;
+        }
+        else
+        {
+            return Rect.rect.width / CardsVisible;
+        }
+    }
 
     private RectTransform rect;
     private RectTransform Rect
@@ -67,9 +73,9 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
             : 0; // this assumes the pickers are anchored in the middle.
 
         // calculate X position to place first child
-        var minX = -LayoutWidth / 2f + (cellWidth / 2);
-        var maxX = LayoutWidth / 2f + (cellWidth / 2);
-        var startX = Mathf.Lerp(minX, maxX, ScrollPosition);
+        var minX = -Rect.rect.width / 2f + (cellWidth / 2);
+        var maxX = Rect.rect.width / 2f + (cellWidth / 2);
+        var startX = minX;
 
         // place children relative to first child
         var currentColumn = 0;
@@ -92,8 +98,6 @@ public class CardLayout : UIBehaviour, ILayoutGroup, IPointerEnterHandler, IPoin
 
             currentColumn++;
         }
-
-        //Rect.sizeDelta = new Vector2(cellHeight, LayoutWidth);
     }
 
     public void SetLayoutVertical()

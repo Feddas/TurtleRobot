@@ -10,6 +10,10 @@ A way for a child to practice what they learn in Robot Turtles without a parent 
 
 https://shawnfeatherly.visualstudio.com/DefaultCollection/_git/TurtleRobot
 
+# TODO
+
+- lock card movement by adding a Canvas group and childing all CardLayouts to it. Then toggle it's interactable depending on "isRunning"
+
 # Inspiration
 
 Dan Sharpio - The man behind Robot Turtles
