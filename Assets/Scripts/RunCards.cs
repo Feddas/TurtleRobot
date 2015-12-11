@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
+using System;
 
 enum DirectionEnum
 {
@@ -14,6 +15,8 @@ enum DirectionEnum
 
 public class RunCards : MonoBehaviour
 {
+    public event EventHandler<EventArgs> FinishedRun;
+
     public CardLayout CardsProgram;
     public CardLayout CardsFunction;
     public float SecondsPerCard;
@@ -48,13 +51,15 @@ public class RunCards : MonoBehaviour
         startPosition = turtleRect ? turtleRect.anchoredPosition : (Vector2)turtle.localPosition;
         startRotation = turtle.localRotation;
         startDirection = DirectionEnum.Up;
+
+        this.FinishedRun += RunCards_FinishedRun;
     }
 
     void Update()
     {
     }
 
-    public void OnClickRun(GameObject stopGraphic)
+    public bool OnClickRun()
     {
         // reset back to starting position
         if (turtleRect)
@@ -68,34 +73,48 @@ public class RunCards : MonoBehaviour
         turtle.localRotation = startRotation;
         facingDirection = startDirection;
 
-        setRunning(isRunning == false, stopGraphic);
+        isRunning = isRunning == false;
         if (isRunning == false)
-            return;
+            return false;
 
         // grab cards to run
         programToRun = CardsProgram.GetComponentsInChildren<Card>().ToList();
         function = CardsFunction.GetComponentsInChildren<Card>().ToList();
 
         // run them
-        StartCoroutine(executeProgram(() => setRunning(false, stopGraphic)));
+        StartCoroutine(executeProgram());
+
+        return true;
     }
 
-    private void setRunning(bool newIsRunning, GameObject stopGraphic)
+    private void OnFinishedRun()
     {
-        isRunning = newIsRunning;
-        stopGraphic.SetActive(isRunning);
+        if (this.FinishedRun != null)
+            this.FinishedRun(this, new EventArgs());
     }
 
-    IEnumerator executeProgram(System.Action callbackSetRunning)
+    void RunCards_FinishedRun(object sender, EventArgs e)
+    {
+        isRunning = false;
+
+        // remove any hightlighting
+        if (activeCardInProgram) activeCardInProgram.color = Color.white;
+        if (activeCardInFunction) activeCardInFunction.color = Color.white;
+    }
+
+    IEnumerator executeProgram()
     {
         foreach (var card in programToRun)
         {
-            activeCardInProgram = card.GetComponent<Image>();
-            activeCardInFunction = null; // erase value from any previous function cards
-            yield return StartCoroutine(executeCard(card.Type));
+            if (isRunning)
+            {
+                activeCardInProgram = card.GetComponent<Image>();
+                activeCardInFunction = null; // erase value from any previous function cards
+                yield return StartCoroutine(executeCard(card.Type));
+            }
         }
 
-        callbackSetRunning();
+        OnFinishedRun();
         yield return null;
     }
 
@@ -103,11 +122,14 @@ public class RunCards : MonoBehaviour
     {
         foreach (var card in function)
         {
-            activeCardInFunction = card.GetComponent<Image>();
-            yield return StartCoroutine(executeCard(card.Type));
+            if (isRunning)
+            {
+                activeCardInFunction = card.GetComponent<Image>();
+                yield return StartCoroutine(executeCard(card.Type));
 
-            // prep for next card
-            runningFunctionIndex++;
+                // prep for next card
+                runningFunctionIndex++;
+            }
         }
         runningFunctionIndex = 0;
         yield return null;
