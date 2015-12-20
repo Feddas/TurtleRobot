@@ -51,8 +51,6 @@ public class RunCards : MonoBehaviour
         startPosition = turtleRect ? turtleRect.anchoredPosition : (Vector2)turtle.localPosition;
         startRotation = turtle.localRotation;
         startDirection = DirectionEnum.Up;
-
-        this.FinishedRun += RunCards_FinishedRun;
     }
 
     void Update()
@@ -89,17 +87,14 @@ public class RunCards : MonoBehaviour
 
     private void OnFinishedRun()
     {
-        if (this.FinishedRun != null)
-            this.FinishedRun(this, new EventArgs());
-    }
-
-    void RunCards_FinishedRun(object sender, EventArgs e)
-    {
         isRunning = false;
 
         // remove any hightlighting
         if (activeCardInProgram) activeCardInProgram.color = Color.white;
         if (activeCardInFunction) activeCardInFunction.color = Color.white;
+
+        if (this.FinishedRun != null)
+            this.FinishedRun(this, new EventArgs());
     }
 
     IEnumerator executeProgram()
@@ -113,6 +108,7 @@ public class RunCards : MonoBehaviour
                 yield return StartCoroutine(executeCard(card.Type));
             }
         }
+        yield return null; // handles no cards in the program by finishing on a different frame than it started on.
 
         OnFinishedRun();
         yield return null;
