@@ -1,0 +1,48 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class Gem : MonoBehaviour
+{
+    public int PlacementRange;
+    public ParticleSystem Fireworks;
+
+    void Start()
+    {
+        if (PlacementRange == 0)
+            PlacementRange = 2;
+
+        // randomly place gem
+        this.transform.localPosition = RandomIntDistance(PlacementRange);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void ShootFireworks()
+    {
+        Fireworks.Play();
+    }
+
+    /// <summary>
+    /// A random interger snapped distance from 0,0 that can be anywhere between
+    /// (-distanceFromZero, -distanceFromZero) to (distanceFromZero, distanceFromZero)
+    /// </summary>
+    /// <param name="distanceFromZero"></param>
+    /// <returns></returns>
+    Vector3 RandomIntDistance(int distanceFromZero)
+    {
+        Vector3 randomPosition;
+        do
+        {
+            randomPosition = new Vector3(
+                Random.Range(-distanceFromZero, distanceFromZero + 1),
+                Random.Range(-distanceFromZero, distanceFromZero + 1),
+                0);
+        } while (randomPosition == Vector3.zero);
+
+        return randomPosition;
+    }
+}

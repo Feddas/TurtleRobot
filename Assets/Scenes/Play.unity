@@ -882,7 +882,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 497104, guid: ae934ef90ab3769408c558cbff8c2c05, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 497104, guid: ae934ef90ab3769408c558cbff8c2c05, type: 2}
       propertyPath: m_LocalPosition.z
@@ -907,6 +907,10 @@ Prefab:
     - target: {fileID: 497104, guid: ae934ef90ab3769408c558cbff8c2c05, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 191988, guid: ae934ef90ab3769408c558cbff8c2c05, type: 2}
+      propertyPath: m_Name
+      value: Gem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ae934ef90ab3769408c558cbff8c2c05, type: 2}
@@ -1294,6 +1298,7 @@ MonoBehaviour:
   CardsProgram: {fileID: 370834588}
   CardsFunction: {fileID: 313092995}
   SecondsPerCard: 1
+  TurtleCollider: {fileID: 0}
 --- !u!114 &2063147027
 MonoBehaviour:
   m_ObjectHideFlags: 0

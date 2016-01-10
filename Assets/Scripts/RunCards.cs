@@ -20,6 +20,7 @@ public class RunCards : MonoBehaviour
     public CardLayout CardsProgram;
     public CardLayout CardsFunction;
     public float SecondsPerCard;
+    public CollideTurtle TurtleCollider;
 
     private Transform turtle
     {
