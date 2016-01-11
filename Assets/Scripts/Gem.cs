@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Gem : MonoBehaviour
 {
+    [Tooltip("degrees the gem rotates every second")]
+    public float rotationAmount = 30.0f;
     public int PlacementRange;
     public ParticleSystem Fireworks;
 
@@ -18,7 +20,7 @@ public class Gem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        this.transform.Rotate(0, 0, rotationAmount * Time.deltaTime);
     }
 
     public void ShootFireworks()

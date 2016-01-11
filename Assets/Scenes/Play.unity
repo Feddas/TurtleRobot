@@ -912,7 +912,12 @@ Prefab:
       propertyPath: m_Name
       value: Gem
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 9545932, guid: ae934ef90ab3769408c558cbff8c2c05, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9545932, guid: ae934ef90ab3769408c558cbff8c2c05, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ae934ef90ab3769408c558cbff8c2c05, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1420493091
