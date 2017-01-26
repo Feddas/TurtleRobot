@@ -4695,6 +4695,10 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 539121806}
+--- !u!4 &548482514 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 415332, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+  m_PrefabInternal: {fileID: 1438800983}
 --- !u!1 &551233228
 GameObject:
   m_ObjectHideFlags: 0
@@ -10965,6 +10969,10 @@ Prefab:
       propertyPath: CardsFunction
       value: 
       objectReference: {fileID: 313092995}
+    - target: {fileID: 11416144, guid: bf10f399a22420e42bb060e165d1fbec, type: 2}
+      propertyPath: TurtleGhost
+      value: 
+      objectReference: {fileID: 548482514}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bf10f399a22420e42bb060e165d1fbec, type: 2}
   m_IsPrefabParent: 0
@@ -11036,6 +11044,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1438519732}
+--- !u!1001 &1438800983
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 415332, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 415332, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415332, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415332, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415332, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415332, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 415332, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 415332, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 9eaefeee15fb02745aa3440e1460db6a, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1439235446
 GameObject:
   m_ObjectHideFlags: 0
@@ -11395,7 +11445,7 @@ RectTransform:
   m_Children:
   - {fileID: 478633794}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -15140,6 +15190,7 @@ MonoBehaviour:
   CardsFunction: {fileID: 313092995}
   SecondsPerCard: 1
   TurtleCollider: {fileID: 0}
+  TurtleGhost: {fileID: 0}
 --- !u!114 &2063147027
 MonoBehaviour:
   m_ObjectHideFlags: 0

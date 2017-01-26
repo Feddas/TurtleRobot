@@ -21,6 +21,7 @@ public class RunCards : MonoBehaviour
     public CardLayout CardsFunction;
     public float SecondsPerCard;
     public CollideTurtle TurtleCollider;
+    public Transform TurtleGhost;
 
     private Transform turtle
     {
@@ -37,6 +38,8 @@ public class RunCards : MonoBehaviour
     private List<Card> function;
     private DirectionEnum facingDirection;
     private bool isRunning;
+    private bool hasWon;
+    private CollideTurtle turtleCollider;
 
     private Vector2 startPosition;
     private Quaternion startRotation;
@@ -52,26 +55,22 @@ public class RunCards : MonoBehaviour
         startPosition = turtleRect ? turtleRect.anchoredPosition : (Vector2)turtle.localPosition;
         startRotation = turtle.localRotation;
         startDirection = DirectionEnum.Up;
+
+        turtleCollider = this.GetComponentInChildren<CollideTurtle>();
+        turtleCollider.GemReached += TurtleCollider_GemReached;
     }
 
     void Update()
     {
     }
 
+    private void OnDestroy()
+    {
+        turtleCollider.GemReached -= TurtleCollider_GemReached;
+    }
+
     public bool OnClickRun()
     {
-        // reset back to starting position
-        if (turtleRect)
-        {
-            turtleRect.anchoredPosition = startPosition;
-        }
-        else
-        {
-            turtle.localPosition = startPosition;
-        }
-        turtle.localRotation = startRotation;
-        facingDirection = startDirection;
-
         isRunning = isRunning == false;
         if (isRunning == false)
             return false;
@@ -94,8 +93,36 @@ public class RunCards : MonoBehaviour
         if (activeCardInProgram) activeCardInProgram.color = Color.white;
         if (activeCardInFunction) activeCardInFunction.color = Color.white;
 
+        // move ghost
+        if (hasWon == false)
+        {
+            TurtleGhost.position = this.transform.position;
+            TurtleGhost.localRotation = this.transform.localRotation;
+            resetTurtlePosition();
+        }
+
         if (this.FinishedRun != null)
             this.FinishedRun(this, new EventArgs());
+    }
+
+    private void resetTurtlePosition()
+    {
+        // reset back to starting position
+        if (turtleRect)
+        {
+            turtleRect.anchoredPosition = startPosition;
+        }
+        else
+        {
+            turtle.localPosition = startPosition;
+        }
+        turtle.localRotation = startRotation;
+        facingDirection = startDirection;
+    }
+
+    private void TurtleCollider_GemReached(object sender, EventArgs e)
+    {
+        hasWon = true;
     }
 
     IEnumerator executeProgram()

@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class CollideTurtle : MonoBehaviour
 {
-    // Use this for initialization
+    public event EventHandler<EventArgs> GemReached;
+
     void Start()
     {
-
     }
 
-    // Update is called once per frame
     void Update()
     {
-
     }
 
     void OnCollisionEnter(Collision collision)
@@ -24,10 +23,12 @@ public class CollideTurtle : MonoBehaviour
         if (gem != null)
         {
             onWin(gem);
+
+            if (this.GemReached != null)
+                this.GemReached(this, new EventArgs());
         }
     }
 
-    //TODO: refactor onWin into a function in RunCards that's executed when OnCollisionEnter raises a GemReached event
     void onWin(Gem winningGem)
     {
         winningGem.ShootFireworks();

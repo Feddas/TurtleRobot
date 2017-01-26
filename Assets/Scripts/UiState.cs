@@ -16,6 +16,12 @@ public class UiState : MonoBehaviour
             Turtle.FinishedRun += Turtle_FinishedRun;
     }
 
+    void OnDestroy()
+    {
+        if (Turtle)
+            Turtle.FinishedRun -= Turtle_FinishedRun;
+    }
+
     void Turtle_FinishedRun(object sender, System.EventArgs e)
     {
         StopGraphic.SetActive(false);

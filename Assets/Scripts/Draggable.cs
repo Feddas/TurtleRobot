@@ -8,8 +8,8 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(CanvasGroup))]
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    /// <summary> where the draggable will drop when dragging is ended </summary>
-    private static RectTransform dropDestination;
+    /// <summary> where the draggable will drop when dragging is ended. Not marked static so that multiple cards can be dragged at the same time </summary>
+    private RectTransform dropDestination;
 
     /// <summary> What transform this draggable object was initially dragged from </summary>
     public Transform DragBeginIn { get; set; }
@@ -44,7 +44,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         canvasGroup = this.GetComponent<CanvasGroup>();
         if (dropDestination == null)
         {
-            dropDestination = new GameObject("WhereDraggedCardWillDrop", typeof(RectTransform)).GetComponent<RectTransform>();
+            dropDestination = new GameObject("Where" + this.name + "WillDrop", typeof(RectTransform)).GetComponent<RectTransform>();
         }
         storesObjectDuringDrag = this.transform.parent.parent;
         destinationLayout = this.transform.parent.GetComponent<CardLayout>();
