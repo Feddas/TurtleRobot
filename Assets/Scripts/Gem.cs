@@ -3,9 +3,12 @@ using System.Collections;
 
 public class Gem : MonoBehaviour
 {
+    [Help("A turtle colliding with a gem causes the colliding turtle to complete the level.", UnityEditor.MessageType.None)]
     [Tooltip("degrees the gem rotates every second")]
-    public float rotationAmount = 30.0f;
-    public int PlacementRange;
+    public float rotationSpeed = 30.0f;
+
+    [Range(1, 10)]
+    public int PlacementRange = 2;
     public ParticleSystem Fireworks;
 
     void Start()
@@ -20,7 +23,7 @@ public class Gem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.transform.Rotate(0, 0, rotationAmount * Time.deltaTime);
+        this.transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
     }
 
     public void ShootFireworks()

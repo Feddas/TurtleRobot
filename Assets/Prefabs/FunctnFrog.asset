@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3186855fd918d04bb507b94da19704a, type: 3}
-  m_Name: Function
+  m_Name: FunctnFrog
   m_EditorClassIdentifier: 
   Polygons:
   - Name: Body
