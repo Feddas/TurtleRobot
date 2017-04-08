@@ -32,7 +32,7 @@ public class CollideTurtle : MonoBehaviour
     void onWin(Gem winningGem)
     {
         winningGem.ShootFireworks();
-        StartCoroutine(ReloadLevel(3));
+        StartCoroutine(ReloadLevel(8));
     }
 
     private IEnumerator ReloadLevel(float inSeconds)

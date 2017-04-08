@@ -9,7 +9,7 @@ public class Gem : MonoBehaviour
 
     [Range(1, 10)]
     public int PlacementRange = 2;
-    public ParticleSystem Fireworks;
+    public ParticleSeek Fireworks;
 
     void Start()
     {
@@ -28,7 +28,7 @@ public class Gem : MonoBehaviour
 
     public void ShootFireworks()
     {
-        Fireworks.Play();
+        Fireworks.Burst();
     }
 
     /// <summary>
