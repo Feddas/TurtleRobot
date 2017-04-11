@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Gem : MonoBehaviour
 {
-    [Help("A turtle colliding with a gem causes the colliding turtle to complete the level.", UnityEditor.MessageType.None)]
+    [Help("A turtle colliding with a gem causes the colliding turtle to complete the level.")]
     [Tooltip("degrees the gem rotates every second")]
     public float rotationSpeed = 30.0f;
 

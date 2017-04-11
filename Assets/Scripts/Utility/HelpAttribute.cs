@@ -27,21 +27,32 @@
 // --------------------------------------------------------------------------------------------------------------------
 using System;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [AttributeUsage(AttributeTargets.Field, Inherited = true)]
 public class HelpAttribute : PropertyAttribute
 {
     public readonly string help;
+#if UNITY_EDITOR
     public readonly MessageType type;
+#endif
 
-    public HelpAttribute(string help, MessageType type = MessageType.Info)
+    public HelpAttribute(string help
+#if UNITY_EDITOR
+        , MessageType type = MessageType.None
+#endif
+        )
     {
         this.help = help;
+#if UNITY_EDITOR
         this.type = type;
+#endif
     }
 }
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(HelpAttribute))]
 public class HelpDrawer : PropertyDrawer
 {
@@ -111,7 +122,7 @@ public class HelpDrawer : PropertyDrawer
         position.height = baseHeight;
 
         var range = rangeAttribute;
-        
+
         if (range != null)
         {
             if (prop.propertyType == SerializedPropertyType.Float)
@@ -152,3 +163,4 @@ public class HelpDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+#endif

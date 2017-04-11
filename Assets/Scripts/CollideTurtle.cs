@@ -6,6 +6,8 @@ public class CollideTurtle : MonoBehaviour
 {
     public event EventHandler<EventArgs> GemReached;
 
+    public ErrorText ErrorText;
+
     void Start()
     {
     }
@@ -39,9 +41,16 @@ public class CollideTurtle : MonoBehaviour
     {
         yield return new WaitForSeconds(inSeconds);
 
-        // use the new Application.LoadLevel(Application.loadedLevel);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(
-            UnityEngine.SceneManagement.SceneManager.GetSceneAt(0).buildIndex,
-            UnityEngine.SceneManagement.LoadSceneMode.Single);
+        try
+        {
+            // use the new Application.LoadLevel(Application.loadedLevel);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(
+                UnityEngine.SceneManagement.SceneManager.GetSceneAt(0).buildIndex,
+                UnityEngine.SceneManagement.LoadSceneMode.Single);
+        }
+        catch (Exception e)
+        {
+            ErrorText.SetException(e);
+        }
     }
 }
