@@ -9,7 +9,9 @@ using System.Linq;
 [RequireComponent(typeof(ParticleSystem))]
 public class ParticleSeek : MonoBehaviour
 {
-    [Help("Duration of burst is a combination of ParticleSystems duration and it's start lifetime", UnityEditor.MessageType.None)]
+#if UNITY_EDITOR
+    [Help("Duration of burst is a combination of ParticleSystems duration and it's start lifetime")]
+#endif
 
     [Tooltip("Gravity well particles will be affected by")]
     public Transform Target;

@@ -25,6 +25,8 @@
 ///   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /// </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
+#if UNITY_EDITOR
 using System;
 using UnityEngine;
 using UnityEditor;
@@ -152,3 +154,4 @@ public class HelpDrawer : PropertyDrawer
         EditorGUI.EndProperty();
     }
 }
+#endif
