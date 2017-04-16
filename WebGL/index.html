@@ -9,7 +9,6 @@
     <script src="TemplateData/UnityProgress.js"></script>
   </head>
   <body class="template">
-    <p class="header"><span>Unity WebGL Player | </span>TurtleRobot</p>
     <div class="template-wrap clear">
       <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="600px" width="960px"></canvas>
       <br>
@@ -17,15 +16,17 @@
       <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="38" height="38" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
       <div class="title">TurtleRobot <font size="-2">by Shawn Featherly<font></div>
     </div>
-    <p class="footer">&laquo; created with <a href="http://unity3d.com/" title="Go to unity3d.com">Unity</a> &raquo;</p>
     <script type='text/javascript'>
   var Module = {
     TOTAL_MEMORY: 268435456,
     errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
     compatibilitycheck: null,
-    dataUrl: "Release/TurtleRobot.data",
-    codeUrl: "Release/TurtleRobot.js",
-    memUrl: "Release/TurtleRobot.mem",
+    backgroundColor: "#222C36",
+    splashStyle: "Light",
+    dataUrl: "Release/TurtleRobot1.3.data",
+    codeUrl: "Release/TurtleRobot1.3.js",
+    asmUrl: "Release/TurtleRobot1.3.asm.js",
+    memUrl: "Release/TurtleRobot1.3.mem",
   };
 </script>
 <script src="Release/UnityLoader.js"></script>
